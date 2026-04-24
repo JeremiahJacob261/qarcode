@@ -110,6 +110,17 @@
     color: #BDBDBD;
 }
 
+.gen-feedback {
+    min-height: 20px;
+    margin: -8px 0 16px;
+    color: #4F4F4F;
+    font-size: 14px;
+}
+
+.gen-feedback-error {
+    color: #B23B2B;
+}
+
 /* BUTTON */
 .gen-primary-btn {
     width: 100%;
@@ -141,6 +152,10 @@
     text-align: center;
 }
 
+.gen-preview-card-ready {
+    padding: 24px;
+}
+
 .gen-placeholder-icon {
     margin-bottom: 16px;
     opacity: 0.6;
@@ -150,4 +165,14 @@
     font-size: 15px;
     color: #444;
     line-height: 1.5;
+}
+
+.gen-preview-canvas {
+    display: none;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.gen-preview-canvas-visible {
+    display: block;
 }

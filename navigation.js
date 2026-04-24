@@ -133,7 +133,7 @@ function initializeNavigation() {
     
     // Generate page - Generate button
     const genPrimaryBtn = document.querySelector('.gen-primary-btn');
-    if (genPrimaryBtn) {
+    if (genPrimaryBtn && genPrimaryBtn.dataset.generateAction !== 'true') {
         genPrimaryBtn.addEventListener('click', function() {
             navigateWithAnimation(genPrimaryBtn, '/result', 'right');
         });
