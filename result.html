@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QARCODE - Scan Result</title>
+    <link rel="stylesheet" href="animations.css">
+    <style>
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .res-body {
+            background-color: #F8F8F8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            color: #1a1a1a;
+        }
+
+        .res-app-container {
+            width: 100%;
+            max-width: 414px;
+            background-color: #FAF5F3;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .res-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background-color: #fff;
+        }
+
+        .res-logo {
+            font-size: 20px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #0F0F10;
+        }
+
+        .res-history-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* CARD CONTAINER */
+        .res-main-content {
+            padding: 100px 24px 24px; /* Matches the top spacing in the design */
+        }
+
+        .res-result-card {
+            background: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        /* CARD HEADER */
+        .res-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .res-icon-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #FDF1EF;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .res-title-group h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .res-title-group p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .res-divider {
+            height: 1px;
+            background-color: #EEEEEE;
+            margin: 0 0 24px 0;
+            border: none;
+        }
+
+        /* CONTENT SECTION */
+        .res-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .res-url-container {
+            background-color: #FDF1EF;
+            border: 1px solid #F2DEDC;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 32px;
+        }
+
+        .res-url-text {
+            font-size: 16px;
+            color: #1a1a1a;
+            word-break: break-all;
+            font-weight: 500;
+        }
+
+        /* ACTION BUTTONS */
+        .res-action-row {
+            display: flex;
+            gap: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 16px;
+            padding: 16px;
+            justify-content: space-between;
+        }
+
+        .res-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .res-action-btn:active {
+            opacity: 0.6;
+        }
+
+        .res-action-btn svg {
+            stroke: #B23B2B;
+        }
+
+        .res-btn-divider {
+            width: 1px;
+            background-color: #E0E0E0;
+            height: 30px;
+        }
+    </style>
+</head>
+<body class="res-body">
+
+    <div class="res-app-container">
+        <header class="res-header">
+            <h1 class="res-logo">QARCODE</h1>
+            <div class="res-history-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+        </header>
+
+        <main class="res-main-content">
+            <div class="res-result-card">
+                
+                <div class="res-card-header">
+                    <div class="res-icon-circle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B23B2B" stroke-width="2">
+                            <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+                            <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+                            <rect x="3" y="15" width="6" height="6" rx="1"></rect>
+                            <path d="M15 15h2v2h-2v-2zM18 18h3v3h-3v-3zM15 18h2v2h-2v-2zM18 15h3v3h-3v-3z"></path>
+                        </svg>
+                    </div>
+                    <div class="res-title-group">
+                        <h2>QR Code</h2>
+                        <p>Scanned Just Now</p>
+                    </div>
+                </div>
+
+                <hr class="res-divider">
+
+                <span class="res-label">CONTENT</span>
+                <div class="res-url-container">
+                    <p class="res-url-text">https://www.google.com</p>
+                </div>
+
+                <div class="res-action-row">
+                    <button class="res-action-btn" title="Share">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                    </button>
+                    
+                    <div class="res-btn-divider"></div>
+                    
+                    <button class="res-action-btn" title="Copy">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+/* RESET & BASE */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.gen-body {
+    background-color: #f8f8f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    color: #1a1a1a;
+}
+
+.gen-app-container {
+    width: 100%;
+    max-width: 414px;
+    background-color: #FAF5F3; /* Matching splash/home background */
+    min-height: 100vh;
+}
+
+/* HEADER */
+.gen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background-color: #fff;
+}
+
+.gen-logo {
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* CONTENT AREA */
+.gen-content {
+    padding: 32px 24px;
+}
+
+.gen-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.gen-subtitle {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 32px;
+}
+
+/* TOGGLE SYSTEM */
+.gen-toggle-container {
+    display: flex;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    padding: 6px;
+    margin-bottom: 32px;
+}
+
+.gen-toggle-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #444;
+    transition: all 0.2s ease;
+}
+
+.gen-toggle-btn.gen-active {
+    background-color: #F2DEDC; /* Light pinkish-red active state */
+    color: #1a1a1a;
+}
+
+/* INPUT GROUP */
+.gen-input-group {
+    margin-bottom: 24px;
+}
+
+.gen-label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.gen-textarea {
+    width: 100%;
+    height: 140px;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    background: #fff;
+}
+
+.gen-textarea::placeholder {
+    color: #BDBDBD;
+}
+
+/* BUTTON */
+.gen-primary-btn {
+    width: 100%;
+    background-color: #B23B2B; /* Deep reddish-brown from design */
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 60px;
+    transition: opacity 0.2s;
+}
+
+.gen-primary-btn:active {
+    opacity: 0.9;
+}
+
+/* PREVIEW CARD */
+.gen-preview-card {
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 20px;
+    aspect-ratio: 1 / 1; /* Makes it a perfect square */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.gen-placeholder-icon {
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.gen-placeholder-text {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.5;
+}

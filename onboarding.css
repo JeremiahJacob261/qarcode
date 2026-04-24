@@ -1,0 +1,138 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.onb-body {
+    background-color: #F8F8F8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    color: #1a1a1a;
+}
+
+.onb-app-container {
+    width: 100%;
+    max-width: 414px;
+    background-color: #FAF5F3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 24px 40px;
+}
+
+/* ILLUSTRATION CARD */
+.onb-illustration-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.onb-card {
+    background: #FFFFFF;
+    width: 240px;
+    height: 240px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.onb-scan-graphic {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.onb-scan-line {
+    position: absolute;
+    width: 140%; /* Wider than the icon */
+    height: 3px;
+    background-color: #B23B2B;
+    border-radius: 2px;
+    z-index: 2;
+    box-shadow: 0 0 8px rgba(178, 59, 43, 0.4);
+    /* Subtle breathing animation for the line */
+    animation: scanMove 3s infinite ease-in-out;
+}
+
+@keyframes scanMove {
+    0%, 100% { transform: translateY(-30px); }
+    50% { transform: translateY(30px); }
+}
+
+/* TEXT CONTENT */
+.onb-text-content {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.onb-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+}
+
+.onb-subtitle {
+    font-size: 17px;
+    color: #666;
+    line-height: 1.5;
+    padding: 0 20px;
+}
+
+/* FOOTER & BUTTONS */
+.onb-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.onb-pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.onb-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #E0E0E0;
+    border-radius: 50%;
+}
+
+.onb-dot-active {
+    width: 32px; /* Pill shape for active state */
+    height: 8px;
+    background-color: #B23B2B;
+    border-radius: 10px;
+}
+
+.onb-primary-btn {
+    width: 100%;
+    background-color: #B23B2B;
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.onb-primary-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
