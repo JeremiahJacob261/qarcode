@@ -10,22 +10,26 @@ const navigationMap = {
     'home-card-scan': { url: '/scan', direction: 'right' },
     'home-card-generate': { url: '/generate', direction: 'right' },
     'home-nav-add': { url: '/generate', direction: 'right' },
+    'home-logo': { url: '/home', direction: 'left' },
     
     // Generate page icons
     'gen-history-icon': { url: '/history', direction: 'right' },
     'gen-primary-btn': { url: '/result', direction: 'right' },
+    'gen-logo': { url: '/home', direction: 'left' },
     
     // History page back navigation
     'hist-logo': { url: '/home', direction: 'left' },
     
     // Result page back navigation
     'res-history-icon': { url: '/home', direction: 'left' },
+    'res-logo': { url: '/home', direction: 'left' },
     
     // Onboarding navigation
     'onb-primary-btn': { url: '/home', direction: 'right' },
     
     // Scan page back button
     'cam-back-btn': { url: '/home', direction: 'left' },
+    'cam-logo': { url: '/home', direction: 'left' },
 };
 
 // Check if user is first time visitor
@@ -85,6 +89,15 @@ function initializeNavigation() {
         });
         historyIcon.style.cursor = 'pointer';
     }
+
+    // App logos - route to home
+    const homeLogo = document.querySelector('.home-logo');
+    if (homeLogo) {
+        homeLogo.addEventListener('click', function() {
+            navigateWithAnimation(homeLogo, '/home', 'left');
+        });
+        homeLogo.style.cursor = 'pointer';
+    }
     
     // Home page - SCAN card (now goes to scan page, not onboarding)
     const scanCard = document.querySelector('.home-card-scan');
@@ -130,6 +143,14 @@ function initializeNavigation() {
         });
         genHistoryIcon.style.cursor = 'pointer';
     }
+
+    const genLogo = document.querySelector('.gen-logo');
+    if (genLogo) {
+        genLogo.addEventListener('click', function() {
+            navigateWithAnimation(genLogo, '/home', 'left');
+        });
+        genLogo.style.cursor = 'pointer';
+    }
     
     // Generate page - Generate button
     const genPrimaryBtn = document.querySelector('.gen-primary-btn');
@@ -163,6 +184,14 @@ function initializeNavigation() {
             navigateWithAnimation(resHistoryIcon, '/home', 'left');
         });
         resHistoryIcon.style.cursor = 'pointer';
+    }
+
+    const resLogo = document.querySelector('.res-logo');
+    if (resLogo) {
+        resLogo.addEventListener('click', function() {
+            navigateWithAnimation(resLogo, '/home', 'left');
+        });
+        resLogo.style.cursor = 'pointer';
     }
     
     // Scan page - Back button
