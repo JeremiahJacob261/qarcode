@@ -5,19 +5,19 @@ A modern, mobile-first web application for scanning and generating QR codes and 
 ## Getting Started
 
 ### Prerequisites
-- [Bun](https://bun.sh) (Fast JavaScript runtime)
+- [Node.js](https://nodejs.org/) 20+
 
 ### Installation & Running
 
-1. **Install Bun** (if not already installed):
+1. **Install dependencies**:
    ```bash
-   curl -fsSL https://bun.sh/install | bash
+   npm install
    ```
 
-2. **Start the routing server**:
+2. **Start the Vite dev server**:
    ```bash
    cd /home/jerry/project/qarcode
-   bun run server.ts
+   npm run dev
    ```
 
 3. **Open in browser**:
@@ -25,31 +25,32 @@ A modern, mobile-first web application for scanning and generating QR codes and 
 
 ## Routing System
 
-The app uses a Bun-powered routing system. Instead of accessing `.html` files directly, you use clean routes:
+The app uses Vite with a multi-page directory structure. Instead of accessing `.html` files directly, you use clean routes:
 
 - `/` - Splash screen
-- `/home` - Home page (main dashboard)
-- `/scan` - QR code scanner
-- `/generate` - Generate QR codes / barcodes
-- `/history` - Scan history
-- `/result` - Scan result page
-- `/onboarding` - Onboarding flow
+- `/home/` - Home page (main dashboard)
+- `/scan/` - QR code scanner
+- `/generate/` - Generate QR codes / barcodes
+- `/history/` - Scan history
+- `/result/` - Scan result page
+- `/onboarding/` - Onboarding flow
 
 ## Project Structure
 
 ```
 qarcode/
-├── server.ts              # Bun routing server
+├── vite.config.ts         # Vite multi-page route configuration
+├── package.json           # Scripts and dev dependencies
 ├── navigation.js          # Navigation & animation logic
 ├── animations.css         # Global animation styles
 ├── index.html            # Splash screen
-├── home.html             # Home page
-├── scan.html             # Scanner page
-├── generate.html         # Generator page
+├── home/index.html       # Home page
+├── scan/index.html       # Scanner page
+├── generate/index.html   # Generator page
 ├── generate.css          # Generator styles
-├── history.html          # History page
-├── result.html           # Result page
-├── onboarding.html       # Onboarding page
+├── history/index.html    # History page
+├── result/index.html     # Result page
+├── onboarding/index.html # Onboarding page
 ├── onboarding.css        # Onboarding styles
 ├── style.css             # Home page styles
 └── Qarcode/              # Subdirectory (assets/resources)
@@ -66,19 +67,19 @@ qarcode/
 ## Development
 
 ### Navigation
-All navigation is handled by `navigation.js` which uses the route system defined in `server.ts`. Page transitions include smooth slide animations.
+All navigation is handled by `navigation.js` using clean directory routes. Page transitions include smooth slide animations.
 
 ### Styling
 - Global animations: `animations.css`
 - Page-specific styles are defined in their respective CSS files
 - All pages use a consistent color scheme
 
-## Server Configuration
+## Vite Configuration
 
-The Bun server is configured to:
-- Listen on `http://localhost:3000`
-- Route requests to corresponding HTML files
-- Serve static assets (CSS, JS, images)
-- Handle all page navigation through the routing system
+Vite is configured to:
+- Listen on `http://localhost:3000` during development
+- Build every page as a separate HTML entry
+- Serve shared static assets from the project root
+- Preserve clean routes through directory-based pages
 
-To modify the routes, edit the `routes` object in `server.ts`.
+To modify the available pages, update `vite.config.ts` and the route targets in `navigation.js`.

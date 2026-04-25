@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QARCODE - Scanner</title>
+    <link rel="icon" type="image/png" href="/qarcode.png">
+    <link rel="stylesheet" href="/animations.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cam-body {
+            background-color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .cam-app-container {
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            position: relative;
+            background: #050505;
+            overflow: hidden;
+        }
+
+        .cam-video-feed {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #111;
+        }
+
+        .cam-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.18) 18%, rgba(0, 0, 0, 0.1) 82%, rgba(0, 0, 0, 0.62)),
+                radial-gradient(circle at center, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.45));
+            pointer-events: none;
+        }
+
+        .cam-status-chip {
+            position: absolute;
+            top: 26px;
+            left: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(14px);
+            border-radius: 999px;
+            padding: 12px 16px;
+            color: #FFF7F5;
+            font-size: 13px;
+            text-align: center;
+            pointer-events: auto;
+        }
+
+        .cam-viewfinder {
+            width: min(74vw, 294px);
+            aspect-ratio: 1 / 1;
+            position: relative;
+            border-radius: 28px;
+            box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.28);
+            background:
+                linear-gradient(to right, #D65A49 4px, transparent 4px) 0 0,
+                linear-gradient(to bottom, #D65A49 4px, transparent 4px) 0 0,
+                linear-gradient(to left, #D65A49 4px, transparent 4px) 100% 0,
+                linear-gradient(to bottom, #D65A49 4px, transparent 4px) 100% 0,
+                linear-gradient(to right, #D65A49 4px, transparent 4px) 0 100%,
+                linear-gradient(to top, #D65A49 4px, transparent 4px) 0 100%,
+                linear-gradient(to left, #D65A49 4px, transparent 4px) 100% 100%,
+                linear-gradient(to top, #D65A49 4px, transparent 4px) 100% 100%;
+            background-repeat: no-repeat;
+            background-size: 52px 52px;
+        }
+
+        .cam-viewfinder-active {
+            animation: camPulse 1.3s ease-in-out infinite alternate;
+        }
+
+        .cam-scan-line {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FF7E6D 18%, #FFF4EF 50%, #FF7E6D 82%, transparent);
+            box-shadow: 0 0 18px rgba(255, 126, 109, 0.9);
+            animation: camMove 2.2s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        @keyframes camMove {
+            0%, 100% { top: 18px; opacity: 0.75; }
+            50% { top: calc(100% - 20px); opacity: 1; }
+        }
+
+        @keyframes camPulse {
+            from { box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.28), 0 0 0 rgba(214, 90, 73, 0.15); }
+            to { box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.28), 0 0 28px rgba(214, 90, 73, 0.38); }
+        }
+
+        .cam-copy {
+            width: min(82vw, 320px);
+            margin-top: 28px;
+            text-align: center;
+            color: #FFFFFF;
+            pointer-events: auto;
+        }
+
+        .cam-instruction {
+            font-size: 17px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .cam-subtext {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.86);
+        }
+
+        .cam-loading {
+            margin-top: 16px;
+            font-size: 13px;
+            color: #FFD5CF;
+            min-height: 18px;
+        }
+
+        .cam-controls {
+            position: absolute;
+            bottom: 44px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            z-index: 3;
+        }
+
+        .cam-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+            color: white;
+        }
+
+        .cam-btn:active {
+            transform: scale(0.94);
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        .cam-btn-disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .cam-btn-active {
+            background: rgba(214, 90, 73, 0.42);
+            border-color: rgba(255, 208, 200, 0.35);
+        }
+
+        .cam-btn-large {
+            width: 82px;
+            height: 82px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #cam-gallery-input,
+        #cam-canvas {
+            display: none;
+        }
+
+        @media (max-width: 390px) {
+            .cam-status-chip {
+                top: 20px;
+                left: 18px;
+                right: 18px;
+            }
+
+            .cam-controls {
+                bottom: 28px;
+            }
+        }
+    </style>
+</head>
+<body class="cam-body">
+
+    <video id="cam-video" class="cam-video-feed" autoplay playsinline muted></video>
+    <canvas id="cam-canvas"></canvas>
+
+    <div class="cam-app-container">
+        <div class="cam-overlay">
+            <div class="cam-status-chip" id="cam-status">Starting camera…</div>
+
+            <div class="cam-viewfinder cam-viewfinder-active" id="cam-viewfinder">
+                <div class="cam-scan-line"></div>
+            </div>
+
+            <div class="cam-copy">
+                <p class="cam-instruction" id="cam-instruction">Align a QR code or barcode inside the frame</p>
+                <p class="cam-subtext" id="cam-subtext">Live scanning works best with sharp focus and good lighting.</p>
+                <div class="cam-loading" id="cam-loading">Requesting camera access…</div>
+            </div>
+        </div>
+
+        <div class="cam-controls">
+            <button class="cam-btn cam-btn-disabled" id="cam-torch-btn" type="button" title="Toggle torch" disabled>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </button>
+
+            <button class="cam-btn cam-btn-large" id="cam-close-btn" type="button" title="Back to home">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <label for="cam-gallery-input" class="cam-btn" title="Scan from image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </label>
+            <input type="file" id="cam-gallery-input" accept="image/*">
+        </div>
+    </div>
+
+    <script src="/historyManager.js"></script>
+    <script src="/vendor/jsQR.js"></script>
+    <script src="/scannerModule.js"></script>
+    <script src="/navigation.js"></script>
+    <script>
+        let detectionTimer = null;
+        let isHandlingResult = false;
+
+        const video = document.getElementById('cam-video');
+        const canvas = document.getElementById('cam-canvas');
+        const loading = document.getElementById('cam-loading');
+        const status = document.getElementById('cam-status');
+        const instruction = document.getElementById('cam-instruction');
+        const subtext = document.getElementById('cam-subtext');
+        const fileInput = document.getElementById('cam-gallery-input');
+        const torchButton = document.getElementById('cam-torch-btn');
+        const viewfinder = document.getElementById('cam-viewfinder');
+
+        function setScannerMessage(primary, secondary = '', statusText = '') {
+            instruction.textContent = primary;
+            subtext.textContent = secondary;
+            status.textContent = statusText || primary;
+        }
+
+        function setLoadingMessage(message = '') {
+            loading.textContent = message;
+        }
+
+        function describeCapabilities() {
+            const capabilities = scanner.getCapabilities();
+
+            if (capabilities.hasNativeDetector) {
+                setScannerMessage(
+                    'Align a QR code or barcode inside the frame',
+                    'Native detection is ready. Hold steady for a quick capture.',
+                    'Camera live. Real-time QR and barcode detection enabled.'
+                );
+                return;
+            }
+
+            if (capabilities.hasQrFallback) {
+                setScannerMessage(
+                    'QR scanning is ready',
+                    'Barcode support depends on your browser. QR codes will still decode locally.',
+                    'Fallback mode: QR decoding ready, barcode support may be limited.'
+                );
+                return;
+            }
+
+            setScannerMessage(
+                'Scanner support is limited',
+                'Your browser lacks a decoding engine here. Try a newer Chrome or Edge build.',
+                'No compatible barcode decoder found in this browser.'
+            );
+        }
+
+        function configureTorchButton() {
+            if (!scanner.canToggleTorch()) {
+                torchButton.disabled = true;
+                torchButton.classList.add('cam-btn-disabled');
+                return;
+            }
+
+            torchButton.disabled = false;
+            torchButton.classList.remove('cam-btn-disabled');
+
+            torchButton.addEventListener('click', async () => {
+                const enabled = await scanner.toggleTorch();
+                torchButton.classList.toggle('cam-btn-active', enabled);
+                status.textContent = enabled ? 'Torch enabled for low-light scanning.' : 'Torch disabled.';
+            });
+        }
+
+        async function runDetectionLoop() {
+            if (isHandlingResult) {
+                return;
+            }
+
+            const result = await scanner.scanFrame(canvas);
+            if (result) {
+                isHandlingResult = true;
+                setLoadingMessage('Code detected. Opening result…');
+                viewfinder.classList.remove('cam-viewfinder-active');
+                handleScanResult(result);
+                return;
+            }
+
+            detectionTimer = window.setTimeout(runDetectionLoop, 150);
+        }
+
+        async function initializeScanner() {
+            setLoadingMessage('Requesting camera access…');
+
+            const cameraReady = await scanner.initCamera(video);
+            if (!cameraReady) {
+                setLoadingMessage('');
+                setScannerMessage(
+                    'Camera access failed',
+                    'You can still try the gallery button with an image that contains a code.',
+                    'Camera unavailable.'
+                );
+                return;
+            }
+
+            setLoadingMessage('Scanning live feed…');
+            describeCapabilities();
+            configureTorchButton();
+            runDetectionLoop();
+        }
+
+        async function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file || isHandlingResult) {
+                return;
+            }
+
+            try {
+                if (detectionTimer) {
+                    clearTimeout(detectionTimer);
+                    detectionTimer = null;
+                }
+
+                isHandlingResult = true;
+                setLoadingMessage('Scanning selected image…');
+                setScannerMessage(
+                    'Processing your image',
+                    'Looking for a readable QR code or barcode now.',
+                    'Analyzing uploaded image…'
+                );
+
+                const result = await scanner.scanFile(file);
+                handleScanResult(result);
+            } catch (error) {
+                isHandlingResult = false;
+                setLoadingMessage('');
+                describeCapabilities();
+                if (scanner.isScanning) {
+                    runDetectionLoop();
+                }
+                alert(error.message);
+            } finally {
+                fileInput.value = '';
+            }
+        }
+
+        function handleScanResult(result) {
+            const payload = {
+                ...result,
+                action: 'scan',
+                timestamp: new Date().toISOString()
+            };
+
+            historyManager.addToHistory(payload);
+            sessionStorage.setItem('lastScan', JSON.stringify(payload));
+            sessionStorage.setItem('lastResult', JSON.stringify(payload));
+
+            navigateWithAnimation(document.body, '/result/', 'right');
+        }
+
+        window.addEventListener('load', initializeScanner);
+
+        fileInput.addEventListener('change', handleImageUpload);
+
+        window.addEventListener('beforeunload', () => {
+            if (detectionTimer) {
+                clearTimeout(detectionTimer);
+            }
+            scanner.stopCamera();
+        });
+    </script>
+</body>
+</html>

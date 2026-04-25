@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QARCODE Splash Screen</title>
+    <link rel="icon" type="image/png" href="/assets/qarcode-yAM2zWOn.png">
+    <style>
+        /* * 1. RESET & FUNDAMENTALS
+         * Removes browser defaults for pixel-perfect accuracy.
+         */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* 2. THE BACKGROUND COLOR (From image_1.png) */
+            background-color: #FAF5F3; 
+            
+            /* 3. LAYOUT: Center everything on screen */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* 4. Ensure the screen takes full height */
+            height: 100vh;
+            width: 100vw;
+            
+            /* 5. FONTS: Use the custom font from Figma here */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            
+            overflow: hidden; /* Prevent scrolling on splash */
+        }
+
+        /* * 6. THE LOGO CONTAINER 
+         * Keeps the logo perfectly centered.
+         */
+        .splash-logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1; /* Pushes the text down */
+        }
+
+        .splash-logo {
+            /* We define a specific height and let width be auto to 
+               maintain aspect ratio. Adjust this height to match 
+               your exact Figma pixel spec. */
+            height: 72px; 
+            width: auto;
+            display: block;
+        }
+
+        /* * 7. THE BOTTOM TEXT 
+         * Recreates the QAR**CODE** visual style.
+         */
+        .splash-text-footer {
+            /* Positioned absolute at the very bottom */
+            position: absolute;
+            bottom: 40px; /* Space from the bottom edge */
+            width: 100%;
+            text-align: center;
+
+            /* Exact styling from Figma */
+            color: #0F0F10; /* Near-black color */
+            font-size: 16px;
+            font-weight: 400; /* Regular weight for 'QAR' */
+            letter-spacing: 0.15em; /* Specific tracked spacing */
+            text-transform: uppercase;
+        }
+
+        /* Specifically styles the "CODE" part */
+        .splash-text-footer .bold {
+            font-weight: 700; /* Bold weight for 'CODE' */
+        }
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/animations-BKboK-tu.css">
+</head>
+<body>
+
+    <div class="splash-logo-container">
+        <img src="/assets/qarcode-yAM2zWOn.png" alt="QARCODE Logo" class="splash-logo">
+    </div>
+
+    <div class="splash-text-footer">
+        QAR<span class="bold">CODE</span>
+    </div>
+
+    <script src="/navigation.js"></script>
+</body>
+</html>

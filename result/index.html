@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QARCODE - Scan Result</title>
+    <link rel="icon" type="image/png" href="/qarcode.png">
+    <link rel="stylesheet" href="/animations.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .res-body {
+            background-color: #F8F8F8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            color: #1a1a1a;
+        }
+
+        .res-app-container {
+            width: 100%;
+            max-width: 414px;
+            background-color: #FAF5F3;
+            min-height: 100vh;
+        }
+
+        .res-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background-color: #fff;
+        }
+
+        .res-logo {
+            font-size: 20px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #0F0F10;
+        }
+
+        .res-history-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .res-main-content {
+            padding: 48px 24px 24px;
+        }
+
+        .res-result-card {
+            background: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .res-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .res-icon-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #FDF1EF;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .res-title-group h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .res-title-group p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .res-divider {
+            height: 1px;
+            background-color: #EEEEEE;
+            margin: 0 0 24px 0;
+            border: none;
+        }
+
+        .res-preview-shell {
+            background: #F8F8F8;
+            border: 1px solid #EFE5E1;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 220px;
+        }
+
+        .res-preview-image {
+            width: 100%;
+            max-width: 240px;
+            max-height: 240px;
+            object-fit: contain;
+            display: none;
+        }
+
+        .res-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .res-url-container {
+            background-color: #FDF1EF;
+            border: 1px solid #F2DEDC;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .res-url-text {
+            font-size: 16px;
+            color: #1a1a1a;
+            word-break: break-word;
+            font-weight: 500;
+        }
+
+        .res-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .res-chip {
+            background: #F4F4F4;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #525252;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .res-action-row {
+            display: flex;
+            gap: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 16px;
+            padding: 16px;
+            justify-content: space-between;
+        }
+
+        .res-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .res-action-btn:active {
+            opacity: 0.6;
+        }
+
+        .res-action-btn svg {
+            stroke: #B23B2B;
+        }
+
+        .res-btn-divider {
+            width: 1px;
+            background-color: #E0E0E0;
+            height: 30px;
+        }
+
+        .res-empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #666;
+        }
+
+        .res-empty-state h2 {
+            font-size: 22px;
+            color: #1A1A1A;
+            margin-bottom: 12px;
+        }
+
+        .res-empty-state p {
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .res-empty-btn {
+            border: none;
+            border-radius: 12px;
+            background: #B23B2B;
+            color: white;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        #res-render-canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body class="res-body">
+
+    <canvas id="res-render-canvas"></canvas>
+
+    <div class="res-app-container">
+        <header class="res-header">
+            <h1 class="res-logo">QARCODE</h1>
+            <div class="res-history-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+        </header>
+
+        <main class="res-main-content">
+            <div class="res-result-card" id="res-result-card" hidden>
+                <div class="res-card-header">
+                    <div class="res-icon-circle" id="res-icon-circle"></div>
+                    <div class="res-title-group">
+                        <h2 id="res-title">QR Code</h2>
+                        <p id="res-subtitle">Scanned Just Now</p>
+                    </div>
+                </div>
+
+                <hr class="res-divider">
+
+                <div class="res-preview-shell">
+                    <img class="res-preview-image" id="res-preview-image" alt="Generated code preview">
+                </div>
+
+                <span class="res-label">CONTENT</span>
+                <div class="res-url-container">
+                    <p class="res-url-text" id="res-value"></p>
+                </div>
+
+                <div class="res-meta-row" id="res-meta-row"></div>
+
+                <div class="res-action-row">
+                    <button class="res-action-btn" id="res-share-btn" title="Share">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                    </button>
+
+                    <div class="res-btn-divider"></div>
+
+                    <button class="res-action-btn" id="res-copy-btn" title="Copy">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+
+                    <div class="res-btn-divider"></div>
+
+                    <button class="res-action-btn" id="res-download-btn" title="Download">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="res-empty-state" id="res-empty-state" hidden>
+                <h2>No result yet</h2>
+                <p>Scan a code or generate one to see the full result view here.</p>
+                <button class="res-empty-btn" type="button" id="res-empty-btn">Back Home</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="/vendor/qrcode-generator.js"></script>
+    <script src="/vendor/JsBarcode.all.min.js"></script>
+    <script src="/generatorModule.js"></script>
+    <script src="/navigation.js"></script>
+    <script>
+        const resultCard = document.getElementById('res-result-card');
+        const emptyState = document.getElementById('res-empty-state');
+        const previewImage = document.getElementById('res-preview-image');
+        const renderCanvas = document.getElementById('res-render-canvas');
+        const titleEl = document.getElementById('res-title');
+        const subtitleEl = document.getElementById('res-subtitle');
+        const valueEl = document.getElementById('res-value');
+        const metaRow = document.getElementById('res-meta-row');
+        const iconCircle = document.getElementById('res-icon-circle');
+        const copyButton = document.getElementById('res-copy-btn');
+        const shareButton = document.getElementById('res-share-btn');
+        const downloadButton = document.getElementById('res-download-btn');
+        const emptyButton = document.getElementById('res-empty-btn');
+
+        function readPayload(key) {
+            try {
+                const raw = sessionStorage.getItem(key);
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                console.error(`Failed to read ${key}:`, error);
+                return null;
+            }
+        }
+
+        function pickLatestPayload() {
+            const candidates = ['lastResult', 'lastGenerated', 'lastScan']
+                .map(readPayload)
+                .filter(Boolean);
+
+            if (!candidates.length) return null;
+
+            return candidates.sort((a, b) => {
+                const aTime = new Date(a.timestamp || 0).getTime();
+                const bTime = new Date(b.timestamp || 0).getTime();
+                return bTime - aTime;
+            })[0];
+        }
+
+        function getTypeLabel(type) {
+            return type === 'barcode' ? 'Barcode' : 'QR Code';
+        }
+
+        function getActionLabel(action) {
+            return action === 'generate' ? 'Generated' : 'Scanned';
+        }
+
+        function formatCodeFormat(format) {
+            if (!format) {
+                return '';
+            }
+
+            return format
+                .replaceAll('_', ' ')
+                .replace(/\b\w/g, (match) => match.toUpperCase());
+        }
+
+        function formatTime(timestamp) {
+            if (!timestamp) return 'Just now';
+
+            const date = new Date(timestamp);
+            const diffMs = Date.now() - date.getTime();
+            const diffMinutes = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+
+            if (diffMinutes < 1) return 'Just now';
+            if (diffMinutes < 60) return `${diffMinutes} min${diffMinutes > 1 ? 's' : ''} ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            return date.toLocaleString();
+        }
+
+        function getIconMarkup(type) {
+            if (type === 'barcode') {
+                return `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B23B2B" stroke-width="2">
+                        <line x1="4" y1="5" x2="4" y2="19"></line>
+                        <line x1="8" y1="5" x2="8" y2="19"></line>
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="14" y1="5" x2="14" y2="19"></line>
+                        <line x1="17" y1="5" x2="17" y2="19"></line>
+                        <line x1="20" y1="5" x2="20" y2="19"></line>
+                    </svg>
+                `;
+            }
+
+            return `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B23B2B" stroke-width="2">
+                    <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+                    <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+                    <rect x="3" y="15" width="6" height="6" rx="1"></rect>
+                    <path d="M15 15h2v2h-2v-2zM18 18h3v3h-3v-3zM15 18h2v2h-2v-2zM18 15h3v3h-3v-3z"></path>
+                </svg>
+            `;
+        }
+
+        function ensurePreviewImage(payload) {
+            if (payload.image) {
+                return payload.image;
+            }
+
+            if (payload.type === 'barcode') {
+                generator.generateBarcode(payload.value, renderCanvas, payload.format || 'CODE128');
+            } else {
+                generator.generateQRCode(payload.value, renderCanvas);
+            }
+
+            payload.image = generator.canvasToBase64(renderCanvas);
+            sessionStorage.setItem('lastResult', JSON.stringify(payload));
+            return payload.image;
+        }
+
+        async function copyValue(value) {
+            try {
+                await navigator.clipboard.writeText(value);
+                return true;
+            } catch (error) {
+                console.error('Copy failed:', error);
+                return false;
+            }
+        }
+
+        function downloadDataUrl(dataUrl, filename) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = filename;
+            link.click();
+        }
+
+        function renderMeta(payload) {
+            const chips = [
+                getTypeLabel(payload.type),
+                getActionLabel(payload.action || 'scan')
+            ];
+
+            if (payload.format) {
+                chips.push(formatCodeFormat(payload.format));
+            }
+
+            if (payload.confidence) {
+                chips.push(`${Math.round(payload.confidence * 100)}% match`);
+            }
+
+            metaRow.innerHTML = chips
+                .map((chip) => `<span class="res-chip">${chip}</span>`)
+                .join('');
+        }
+
+        function renderPayload(payload) {
+            iconCircle.innerHTML = getIconMarkup(payload.type);
+            titleEl.textContent = getTypeLabel(payload.type);
+            subtitleEl.textContent = `${getActionLabel(payload.action || 'scan')} ${formatTime(payload.timestamp)}`;
+            valueEl.textContent = payload.value;
+            renderMeta(payload);
+
+            previewImage.src = ensurePreviewImage(payload);
+            previewImage.style.display = 'block';
+
+            const filename = `qarcode-${payload.type}-${Date.now()}.png`;
+
+            copyButton.addEventListener('click', async () => {
+                const copied = await copyValue(payload.value);
+                if (copied) {
+                    subtitleEl.textContent = 'Copied to clipboard';
+                }
+            });
+
+            shareButton.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: `QARCODE ${getTypeLabel(payload.type)}`,
+                            text: payload.value
+                        });
+                        return;
+                    } catch (error) {
+                        if (error.name === 'AbortError') return;
+                    }
+                }
+
+                const copied = await copyValue(payload.value);
+                if (copied) {
+                    subtitleEl.textContent = 'Share not available, value copied instead';
+                }
+            });
+
+            downloadButton.addEventListener('click', () => {
+                downloadDataUrl(previewImage.src, filename);
+            });
+
+            resultCard.hidden = false;
+            emptyState.hidden = true;
+        }
+
+        const payload = pickLatestPayload();
+
+        if (!payload) {
+            emptyState.hidden = false;
+            emptyButton.addEventListener('click', () => {
+                navigateWithAnimation(emptyButton, '/home', 'left');
+            });
+        } else {
+            renderPayload(payload);
+        }
+    </script>
+</body>
+</html>

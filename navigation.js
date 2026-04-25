@@ -6,30 +6,30 @@
 // Configuration for page navigation with direction info
 const navigationMap = {
     // Home page icons
-    'home-history-icon': { url: '/history', direction: 'right' },
-    'home-card-scan': { url: '/scan', direction: 'right' },
-    'home-card-generate': { url: '/generate', direction: 'right' },
-    'home-nav-add': { url: '/generate', direction: 'right' },
-    'home-logo': { url: '/home', direction: 'left' },
+    'home-history-icon': { url: '/history/', direction: 'right' },
+    'home-card-scan': { url: '/scan/', direction: 'right' },
+    'home-card-generate': { url: '/generate/', direction: 'right' },
+    'home-nav-add': { url: '/generate/', direction: 'right' },
+    'home-logo': { url: '/home/', direction: 'left' },
     
     // Generate page icons
-    'gen-history-icon': { url: '/history', direction: 'right' },
-    'gen-primary-btn': { url: '/result', direction: 'right' },
-    'gen-logo': { url: '/home', direction: 'left' },
+    'gen-history-icon': { url: '/history/', direction: 'right' },
+    'gen-primary-btn': { url: '/result/', direction: 'right' },
+    'gen-logo': { url: '/home/', direction: 'left' },
     
     // History page back navigation
-    'hist-logo': { url: '/home', direction: 'left' },
+    'hist-logo': { url: '/home/', direction: 'left' },
     
     // Result page back navigation
-    'res-history-icon': { url: '/home', direction: 'left' },
-    'res-logo': { url: '/home', direction: 'left' },
+    'res-history-icon': { url: '/home/', direction: 'left' },
+    'res-logo': { url: '/home/', direction: 'left' },
     
     // Onboarding navigation
-    'onb-primary-btn': { url: '/home', direction: 'right' },
+    'onb-primary-btn': { url: '/home/', direction: 'right' },
     
     // Scan page back button
-    'cam-back-btn': { url: '/home', direction: 'left' },
-    'cam-logo': { url: '/home', direction: 'left' },
+    'cam-back-btn': { url: '/home/', direction: 'left' },
+    'cam-logo': { url: '/home/', direction: 'left' },
 };
 
 // Check if user is first time visitor
@@ -73,7 +73,7 @@ function initializeNavigation() {
     if (document.querySelector('.splash-logo-container')) {
         window.addEventListener('load', function () {
             setTimeout(function () {
-                let nextPage = isFirstTimeUser() ? '/onboarding' : '/home';
+                let nextPage = isFirstTimeUser() ? '/onboarding/' : '/home/';
                 markUserAsVisited();
                 window.location.href = nextPage;
             }, 3000);
@@ -85,7 +85,7 @@ function initializeNavigation() {
     const historyIcon = document.querySelector('.home-history-icon');
     if (historyIcon) {
         historyIcon.addEventListener('click', function() {
-            navigateWithAnimation(historyIcon, '/history', 'right');
+            navigateWithAnimation(historyIcon, '/history/', 'right');
         });
         historyIcon.style.cursor = 'pointer';
     }
@@ -94,7 +94,7 @@ function initializeNavigation() {
     const homeLogo = document.querySelector('.home-logo');
     if (homeLogo) {
         homeLogo.addEventListener('click', function() {
-            navigateWithAnimation(homeLogo, '/home', 'left');
+            navigateWithAnimation(homeLogo, '/home/', 'left');
         });
         homeLogo.style.cursor = 'pointer';
     }
@@ -103,7 +103,7 @@ function initializeNavigation() {
     const scanCard = document.querySelector('.home-card-scan');
     if (scanCard) {
         scanCard.addEventListener('click', function() {
-            navigateWithAnimation(scanCard, '/scan', 'right');
+            navigateWithAnimation(scanCard, '/scan/', 'right');
         });
         scanCard.style.cursor = 'pointer';
     }
@@ -112,7 +112,7 @@ function initializeNavigation() {
     const generateCard = document.querySelector('.home-card-generate');
     if (generateCard) {
         generateCard.addEventListener('click', function() {
-            navigateWithAnimation(generateCard, '/generate', 'right');
+            navigateWithAnimation(generateCard, '/generate/', 'right');
         });
         generateCard.style.cursor = 'pointer';
     }
@@ -121,7 +121,7 @@ function initializeNavigation() {
     const navAdd = document.querySelector('.home-nav-add');
     if (navAdd) {
         navAdd.addEventListener('click', function() {
-            navigateWithAnimation(navAdd, '/generate', 'right');
+            navigateWithAnimation(navAdd, '/generate/', 'right');
         });
         navAdd.style.cursor = 'pointer';
     }
@@ -130,7 +130,7 @@ function initializeNavigation() {
     const navActive = document.querySelector('.home-nav-active');
     if (navActive) {
         navActive.addEventListener('click', function() {
-            navigateWithAnimation(navActive, '/scan', 'right');
+            navigateWithAnimation(navActive, '/scan/', 'right');
         });
         navActive.style.cursor = 'pointer';
     }
@@ -139,7 +139,7 @@ function initializeNavigation() {
     const genHistoryIcon = document.querySelector('.gen-history-icon');
     if (genHistoryIcon) {
         genHistoryIcon.addEventListener('click', function() {
-            navigateWithAnimation(genHistoryIcon, '/history', 'right');
+            navigateWithAnimation(genHistoryIcon, '/history/', 'right');
         });
         genHistoryIcon.style.cursor = 'pointer';
     }
@@ -147,7 +147,7 @@ function initializeNavigation() {
     const genLogo = document.querySelector('.gen-logo');
     if (genLogo) {
         genLogo.addEventListener('click', function() {
-            navigateWithAnimation(genLogo, '/home', 'left');
+            navigateWithAnimation(genLogo, '/home/', 'left');
         });
         genLogo.style.cursor = 'pointer';
     }
@@ -156,7 +156,7 @@ function initializeNavigation() {
     const genPrimaryBtn = document.querySelector('.gen-primary-btn');
     if (genPrimaryBtn && genPrimaryBtn.dataset.generateAction !== 'true') {
         genPrimaryBtn.addEventListener('click', function() {
-            navigateWithAnimation(genPrimaryBtn, '/result', 'right');
+            navigateWithAnimation(genPrimaryBtn, '/result/', 'right');
         });
     }
     
@@ -164,7 +164,7 @@ function initializeNavigation() {
     const onbPrimaryBtn = document.querySelector('.onb-primary-btn');
     if (onbPrimaryBtn) {
         onbPrimaryBtn.addEventListener('click', function() {
-            navigateWithAnimation(onbPrimaryBtn, '/home', 'right');
+            navigateWithAnimation(onbPrimaryBtn, '/home/', 'right');
         });
     }
     
@@ -173,7 +173,7 @@ function initializeNavigation() {
     if (histLogo) {
         histLogo.style.cursor = 'pointer';
         histLogo.addEventListener('click', function() {
-            navigateWithAnimation(histLogo, '/home', 'left');
+            navigateWithAnimation(histLogo, '/home/', 'left');
         });
     }
     
@@ -181,7 +181,7 @@ function initializeNavigation() {
     const resHistoryIcon = document.querySelector('.res-history-icon');
     if (resHistoryIcon) {
         resHistoryIcon.addEventListener('click', function() {
-            navigateWithAnimation(resHistoryIcon, '/home', 'left');
+            navigateWithAnimation(resHistoryIcon, '/home/', 'left');
         });
         resHistoryIcon.style.cursor = 'pointer';
     }
@@ -189,7 +189,7 @@ function initializeNavigation() {
     const resLogo = document.querySelector('.res-logo');
     if (resLogo) {
         resLogo.addEventListener('click', function() {
-            navigateWithAnimation(resLogo, '/home', 'left');
+            navigateWithAnimation(resLogo, '/home/', 'left');
         });
         resLogo.style.cursor = 'pointer';
     }
@@ -199,7 +199,7 @@ function initializeNavigation() {
     if (camBackBtn) {
         camBackBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            navigateWithAnimation(camBackBtn, '/home', 'left');
+            navigateWithAnimation(camBackBtn, '/home/', 'left');
         });
     }
 }
