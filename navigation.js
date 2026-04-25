@@ -6,30 +6,30 @@
 // Configuration for page navigation with direction info
 const navigationMap = {
     // Home page icons
-    'home-history-icon': { url: '/history.html', direction: 'right' },
-    'home-card-scan': { url: '/scan.html', direction: 'right' },
-    'home-card-generate': { url: '/generate.html', direction: 'right' },
-    'home-nav-add': { url: '/generate.html', direction: 'right' },
-    'home-logo': { url: '/home.html', direction: 'left' },
+    'home-history-icon': { url: '/history/', direction: 'right' },
+    'home-card-scan': { url: '/scan/', direction: 'right' },
+    'home-card-generate': { url: '/generate/', direction: 'right' },
+    'home-nav-add': { url: '/generate/', direction: 'right' },
+    'home-logo': { url: '/home/', direction: 'left' },
     
     // Generate page icons
-    'gen-history-icon': { url: '/history.html', direction: 'right' },
-    'gen-primary-btn': { url: '/result.html', direction: 'right' },
-    'gen-logo': { url: '/home.html', direction: 'left' },
+    'gen-history-icon': { url: '/history/', direction: 'right' },
+    'gen-primary-btn': { url: '/result/', direction: 'right' },
+    'gen-logo': { url: '/home/', direction: 'left' },
     
     // History page back navigation
-    'hist-logo': { url: '/home.html', direction: 'left' },
+    'hist-logo': { url: '/home/', direction: 'left' },
     
     // Result page back navigation
-    'res-history-icon': { url: '/home.html', direction: 'left' },
-    'res-logo': { url: '/home.html', direction: 'left' },
+    'res-history-icon': { url: '/home/', direction: 'left' },
+    'res-logo': { url: '/home/', direction: 'left' },
     
     // Onboarding navigation
-    'onb-primary-btn': { url: '/home.html', direction: 'right' },
+    'onb-primary-btn': { url: '/home/', direction: 'right' },
     
     // Scan page back button
-    'cam-back-btn': { url: '/home.html', direction: 'left' },
-    'cam-logo': { url: '/home.html', direction: 'left' },
+    'cam-back-btn': { url: '/home/', direction: 'left' },
+    'cam-logo': { url: '/home/', direction: 'left' },
 };
 
 // Check if user is first time visitor
@@ -73,7 +73,7 @@ function initializeNavigation() {
     if (document.querySelector('.splash-logo-container')) {
         window.addEventListener('load', function () {
             setTimeout(function () {
-                let nextPage = isFirstTimeUser() ? '/onboarding.html' : '/home.html';
+                let nextPage = isFirstTimeUser() ? '/onboarding/' : '/home/';
                 markUserAsVisited();
                 window.location.href = nextPage;
             }, 3000);
